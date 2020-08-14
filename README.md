@@ -3,19 +3,18 @@
 This is an implementation of [Mirage](https://eprint.iacr.org/2020/278.pdf): succinct arguments for randomized algorithms applied in the case of universal zk-SNARK circuits. This work provides linear-sized universal circuits (instead of quasi-linear) and addresses other efficiency aspects. 
 
 The implementation consists of the following.
-- MirageBackend: This is a C++ implementation of the underlying zk-SNARK built on top of libsnark. 
-- MirageCircuitGenerator: This is a Java implementation for the universal circuit generation. This also includes examples for how to specify computations like matrix multiplication, merge sort, SHA-256, AES-128 and Hawk's manager circuit for an auction application. Note that specifying computations at this point requires knowledge of the universal circuit structure (more usability improvements and tutorials could be added in the future). 
+- `MirageBackend`: This is a C++ implementation of the underlying zk-SNARK built on top of libsnark. 
+- `MirageCircuitGenerator`: This is a Java implementation for the universal circuit generation. This also includes examples for how to specify computations like matrix multiplication, merge sort, SHA-256, AES-128 and Hawk's manager circuit for an auction application. Note that specifying computations at this point requires detailed knowledge of the universal circuit structure in order to use the circuit efficiently and securely (more usability improvements and tutorials could be added in the future). 
 
 ### Disclaimer
 
-This is an initial release that could contain issues and inconsistencies, and should not be used in production. More documentation and testing will be added.   
+This is an initial release that could contain errors. The code has not been thoroughly reviewed and it is not ready for production use. More documentation and testing are needed and will be added incrementally.
 	
 ### Prerequisites
 - libsnark prerequisites for MirageBackend
 - Java 8 or higher for MirageCircuitGenerator
 
 ### Steps to build and run the implementation
-
 
 - Run ` git clone --recursive https://github.com/akosba/mirage.git`
 - To set up the back end:
