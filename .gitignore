@@ -1,0 +1,11 @@
+*.class
+*.o
+*.so
+*.d
+*.*~
+bin
+.project
+.settings
+.classpath
+*.arith
+*.in
