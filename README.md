@@ -4,7 +4,7 @@ This is an implementation of [Mirage](https://eprint.iacr.org/2020/278.pdf): suc
 
 The implementation consists of the following.
 - `MirageBackend`: This is a C++ implementation of the underlying zk-SNARK built on top of libsnark. 
-- `MirageCircuitGenerator`: This is a Java implementation for the universal circuit generation. This also includes examples for how to specify computations like matrix multiplication, merge sort, SHA-256, AES-128 and Hawk's manager circuit for an auction application. Note that specifying computations at this point requires detailed knowledge of the universal circuit structure in order to use the circuit efficiently and securely (more usability improvements and tutorials could be added in the future). 
+- `MirageCircuitGenerator`: This is a Java implementation for the universal circuit generation. This also includes examples for how to specify computations like matrix multiplication, merge sort, SHA-256, AES-128 and [Hawk](https://eprint.iacr.org/2015/675.pdf)'s manager circuit for an auction application. Note that specifying computations at this point requires detailed knowledge of the universal circuit structure in order to use the circuit efficiently and securely (more usability improvements and tutorials could be added in the future). 
 
 ### Disclaimer
 
