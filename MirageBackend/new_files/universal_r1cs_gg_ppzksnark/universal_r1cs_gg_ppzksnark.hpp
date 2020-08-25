@@ -93,20 +93,20 @@ public:
 
     size_t G1_size() const
     {
-        return 1 + A_query.size() + B_query.domain_size() + H_query.size() + aux_query.size() + witness_query.size()
+        return 4 + A_query.size() + B_query.domain_size() + H_query.size() + aux_query.size() + witness_query.size()
 	+ gamma_stmt_g1.size();
     }
 
     size_t G2_size() const
     {
-        return 1 + B_query.domain_size();
+        return 2 + B_query.domain_size();
     }
 
     size_t size_in_bits() const
     {
         return (libff::size_in_bits(A_query) + B_query.size_in_bits() +
                 libff::size_in_bits(H_query) + libff::size_in_bits(aux_query) + libff::size_in_bits(witness_query)+
-                 1 * libff::G1<ppT>::size_in_bits() + 1 * libff::G2<ppT>::size_in_bits() + gamma_stmt_g1.size_in_bits());
+                 4 * libff::G1<ppT>::size_in_bits() + 2 * libff::G2<ppT>::size_in_bits() + gamma_stmt_g1.size_in_bits());
     }
 
     void print_size() const
@@ -121,7 +121,7 @@ public:
 
 
 /******************************** Specification key ********************************/
-// This is the key used by the computation specifier to set the wires that specifies the program.
+// This is the key used by the computation specifier to compute vk_spec
 // The end verifier does not need to have this loaded, so this was separated from the verification key to save space.
 
 template<typename ppT>
@@ -230,8 +230,8 @@ class universal_r1cs_gg_ppzksnark_derived_key;
 
 /**
  *  This class holds customized values depending on the computation being verified.
- *  We call gamma_spec_g1_computed the custom VK key. This one does not need a trusted party to compute it.
- *  The rest of the values evaluation_At_spec and evaluation_Bt_spec are also computed during the customization part (without trusted party) and used by the prover.
+ *  We call gamma_spec_g1_computed the custom VK key (vk_spec in the paper). This one does not need a trusted party to compute it.
+ *  The rest of the values evaluation_At_spec and evaluation_Bt_spec are also computed during the customization part (without trusted party) and are used by the prover.
  */
 template<typename ppT>
 class universal_r1cs_gg_ppzksnark_derived_key {
@@ -378,10 +378,6 @@ public:
 
 /***************************** Main algorithms *******************************/
 
-/**
- * A generator algorithm for the Universal R1CS GG-ppzkSNARK.
- *
- */
 template<typename ppT>
 universal_r1cs_gg_ppzksnark_keytriple<ppT> universal_r1cs_gg_ppzksnark_generator(const universal_r1cs_gg_ppzksnark_constraint_system<ppT> &cs,
 const universal_circuit_information &info);

@@ -360,8 +360,6 @@ universal_r1cs_gg_ppzksnark_proof<ppT> universal_r1cs_gg_ppzksnark_prover(const 
     libff::enter_block("Compute the polynomial H");
     const qap_witness<libff::Fr<ppT> > qap_wit = r1cs_to_qap_witness_map_no_input_constraints(pk.constraint_system, full_variable_assignment, libff::Fr<ppT>::zero(), libff::Fr<ppT>::zero(), libff::Fr<ppT>::zero());
 
-    /* We are dividing degree 2(d-1) polynomial by degree d polynomial
-       and not adding a PGHR-style ZK-patch, so our H is degree d-2 */
     assert(!qap_wit.coefficients_for_H[qap_wit.degree()-2].is_zero());
     assert(qap_wit.coefficients_for_H[qap_wit.degree()-1].is_zero());
     assert(qap_wit.coefficients_for_H[qap_wit.degree()].is_zero());
@@ -605,7 +603,7 @@ bool universal_r1cs_gg_ppzksnark_verifier(
     {
         if (!libff::inhibit_profiling_info)
         {
-            libff::print_indent(); printf("Pairing checks failed <<<<<<<<<<<<<<< .\n");
+            libff::print_indent(); printf("Verification failed.\n");
         }
         result = false;
     }
