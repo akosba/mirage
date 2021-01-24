@@ -538,8 +538,8 @@ void CircuitReader::mapValuesToProtoboard() {
 		pb->val(*variables[variableMap[wireId]]) = wireValues[wireId];
 		if (zeropMap.find(wireId) != zeropMap.end()) {
 			LinearCombination l = *zeroPwires[zeropGateIndex++];
-			if (pb->val(l) == 0) {
-				pb->val(*variables[zeropMap[wireId]]) = 0;
+			if (pb->val(l) == FieldT::zero()) {
+				pb->val(*variables[zeropMap[wireId]]) = FieldT::zero();
 			} else {
 				pb->val(*variables[zeropMap[wireId]]) = pb->val(l).inverse(
 						pb->fieldType_);
@@ -554,33 +554,26 @@ void CircuitReader::mapValuesToProtoboard() {
 
 }
 
-int CircuitReader::find(Wire wireId, LinearCombinationPtr& lc,
+void CircuitReader::find(Wire wireId, LinearCombinationPtr& lc,
 		bool intentionToEdit) {
 
-	LinearCombinationPtr p = wireLinearCombinations[wireId];
-	if (p) {
-		wireUseCounters[wireId]--;
-		if (wireUseCounters[wireId] == 0) {
-			toClean.push_back(wireId);
-			lc = p;
-		} else {
-			if (intentionToEdit) {
-				lc = make_shared<LinearCombination>(*p);
-			} else {
-				lc = p;
-			}
-		}
-		return 1;
-	} else {
-		wireUseCounters[wireId]--;
-		lc = make_shared<LinearCombination>(
+	if (!wireLinearCombinations[wireId]){
+		wireLinearCombinations[wireId] = make_shared<LinearCombination>(
 				LinearCombination(*variables[variableMap[wireId]]));
-		if (wireUseCounters[wireId] == 0) {
-			toClean.push_back(wireId);
+	}
+	wireUseCounters[wireId]--;
+	if (wireUseCounters[wireId] == 0) {
+		toClean.push_back(wireId);
+		lc = wireLinearCombinations[wireId];
+	} else {
+		if (intentionToEdit) {
+			lc = make_shared<LinearCombination>(*wireLinearCombinations[wireId]);
+		} else {
+			lc = wireLinearCombinations[wireId];
 		}
-		return 2;
 	}
 }
+
 
 void CircuitReader::clean() {
 
@@ -773,7 +766,7 @@ void CircuitReader::addNonzeroCheckConstraint(char* inputStr, char* outputStr) {
 	pb->addRank1Constraint(*l, *variables[currentVariableIdx], *vptr,
 			"condition * auxConditionInverse = output");
 
-	zeroPwires.push_back(l);
+	zeroPwires.push_back(make_shared<LinearCombination>(*l));
 	zeropMap[outputWireId] = currentVariableIdx;
 	currentVariableIdx++;
 

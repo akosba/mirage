@@ -132,10 +132,10 @@ private:
 	unsigned int currentVariableIdx, currentLinearCombinationIdx;
 
 	void parseAndEval(std::vector<FieldT> rnds);
-	void constructCircuit(char*);  // Second Pass:
+	void constructCircuit(char*);
 	void mapValuesToProtoboard();
 
-	int find(unsigned int, LinearCombinationPtr&, bool intentionToEdit = false);
+	void find(unsigned int, LinearCombinationPtr&, bool intentionToEdit = false);
 	void clean();
 
 	void addMulConstraint(char*, char*);
